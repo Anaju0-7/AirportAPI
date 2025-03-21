@@ -4,6 +4,7 @@
  */
 package dev.anajulia.br.airports.controllers;
 
+import dev.anajulia.br.airports.DTO.AirportMinDTO;
 import dev.anajulia.br.airports.entities.Airport;
 import dev.anajulia.br.airports.services.AirportService;
 import java.util.List;
@@ -29,10 +30,11 @@ public class AirportController {
         return result;
     }
    
- @GetMapping ("/city/{cityName}")
- public ResponseEntity<List<Airport>> FindByCityIgnoreCase(@PathVariable String cityName){
-     List<Airport> result = airportService.findByCity(cityName);
+ @GetMapping ("/country/{countryName}")
+ public ResponseEntity<List<AirportMinDTO>> FindByCountryIgnoreCase(@PathVariable String countryName){
      
+     
+     List<AirportMinDTO> result = airportService.findByCountry(countryName);
      if (result.isEmpty()){
          //Ops.. lista vazia...
          //notFound devolve 404
@@ -42,11 +44,10 @@ public class AirportController {
          // Eba! Tem dados!
          // ok devolve 200
          return ResponseEntity.ok(result);
-     }
-     
- 
+        }   
+    }
+    public AirportService getAirportService (){
+      return airportService;  
+    }
  }
-    
 
- 
-}
