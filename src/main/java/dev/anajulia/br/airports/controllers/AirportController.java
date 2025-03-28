@@ -5,6 +5,7 @@
 package dev.anajulia.br.airports.controllers;
 
 import dev.anajulia.br.airports.DTO.AirportMinDTO;
+import dev.anajulia.br.airports.DTO.AirportNearMeDTO;
 import dev.anajulia.br.airports.entities.Airport;
 import dev.anajulia.br.airports.services.AirportService;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -46,14 +48,16 @@ public class AirportController {
          return ResponseEntity.ok(result);
         }   
     }
-    public AirportService getAirportService (){
-      return airportService;  
-    }
- @GetMapping("/iatacode/{iataCode}")
- public ResponseEntity<Airport> findByIataCode(@PathVariable String iataCode){
-     Airport result = airportService.findByIataCode(iataCode);
+   
+ @GetMapping("/nearme")
+ public ResponseEntity<List <AirportNearMeDTO>> findNearMe(
+    @RequestParam double latitude,
+    @RequestParam double longitude ) {
+    
+    
+ List<AirportNearMeDTO> result = airportService. findNearMe(latitude, longitude);
      
-     if(result == null){
+     if(result.isEmpty()){
          return ResponseEntity.notFound().build();
          
      }else{
